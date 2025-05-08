@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
+import visitorRoute from "./routes/visitor.js";
 import cors from "cors";
 
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // 🛣️ Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/visitor", visitorRoute); 
 
 // 🌐 DB + Server Init
 mongoose.connect(process.env.MONGO_URI, {
