@@ -24,4 +24,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+// 💖 GET: Fetch all visitors
+router.get("/", async (req, res) => {
+  try {
+    const visitors = await Visitor.find().sort({ createdAt: -1 }); // newest first
+    res.status(200).json(visitors);
+  } catch (err) {
+    res.status(500).json("Failed to fetch visitors: " + err.message);
+  }
+});
+
 export default router;
