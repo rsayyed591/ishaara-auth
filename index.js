@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import visitorRoute from "./routes/visitor.js";
+import adminRoutes from "./routes/admin.js";
+import mailRoutes from "./routes/mail.js";
 import cors from "cors";
 
 dotenv.config();
@@ -17,6 +19,8 @@ app.use(express.json());
 // 🛣️ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/visitor", visitorRoute); 
+app.use("/api/admin", adminRoutes);
+app.use("/api/mail", mailRoutes);
 
 // 🌐 DB + Server Init
 mongoose.connect(process.env.MONGO_URI, {
