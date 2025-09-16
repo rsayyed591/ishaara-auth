@@ -13,7 +13,27 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 🔌 Middlewares
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://ishaara.vercel.app"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// ✅ Handle preflight requests
+app.options('*', cors());
 app.use(express.json());
 
 // 🛣️ Routes

@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import AdminPassword from "./models/AdminPassword.js";
+import AdminPassword from "../models/AdminPassword.js";
 
 // Load your environment variables (like MONGO_URI)
 dotenv.config();
