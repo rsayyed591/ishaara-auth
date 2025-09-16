@@ -13,19 +13,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Allowed origins list
+// ✅ List of allowed origins
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://ishaara.vercel.app"
+  "https://ishaara.vercel.app",
+  "https://ishaara-auth.vercel.app" // ✅ Add this too!
 ];
 
-// ✅ CORS configuration
+// ✅ CORS middleware
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true); // Allow requests like Postman
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
+      console.error("Blocked by CORS:", origin);
       return callback(new Error("Not allowed by CORS"));
     }
   },
@@ -33,11 +35,11 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// ✅ Middleware to parse JSON requests
-app.use(express.json());
-
-// ✅ Preflight handler – ensures OPTIONS requests are properly responded to
+// ✅ Preflight requests handler
 app.options("*", cors());
+
+// ✅ JSON middleware
+app.use(express.json());
 
 // ✅ Routes
 app.use("/api/auth", authRoutes);
@@ -45,7 +47,7 @@ app.use("/api/visitor", visitorRoute);
 app.use("/api/admin", adminRoutes);
 app.use("/api/mail", mailRoutes);
 
-// ✅ Connect to MongoDB and start server
+// ✅ Connect to MongoDB and start the server
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
